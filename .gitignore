@@ -1,7 +1,8 @@
-locals.tf
-.terraform/
-.terraform.lock.hcl
-.terraform.tfstate.lock.info
-terraform.tfstate
-terraform.tfstate.backup
+infrastructure/locals.tf
+infrastructure/.terraform/
+infrastructure/.terraform.lock.hcl
+infrastructure/.terraform.tfstate.lock.info
+infrastructure/terraform.tfstate
+infrastructure/terraform.tfstate.backup
 .pytest_cache
+poetry.lock

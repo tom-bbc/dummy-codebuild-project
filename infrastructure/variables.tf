@@ -38,5 +38,5 @@ variable "ecr_repo_name" {
 
 variable "buildspec_file" {
   type    = string
-  default = "buildspec.yml"
+  default = "../buildspec.yaml"
 }
