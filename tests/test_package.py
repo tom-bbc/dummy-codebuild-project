@@ -1,6 +1,6 @@
-from package.invoketime import invoke_time
+from package.methods import method
 
 
 def test_1():
-    time = invoke_time()
+    time = method()
     assert time != "" and time is not None

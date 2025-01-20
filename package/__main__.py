@@ -1,9 +1,9 @@
 import logging
 
-from package.invoketime import invoke_time
+from package.methods import method
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-time = invoke_time()
+time = method()
 logger.info(f"Time: {time}")

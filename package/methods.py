@@ -1,5 +1,5 @@
 import time
 
 
-def invoke_time():
+def method():
     return time.ctime()
