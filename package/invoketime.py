@@ -1,5 +1,3 @@
-# this contain the packages that are used in the project
-
 import time
 
 

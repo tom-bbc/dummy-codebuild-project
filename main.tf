@@ -11,6 +11,7 @@ resource "aws_ecr_repository" "main" {
   }
 }
 
+# Role for project to access codebuild
 resource "aws_iam_role" "codebuild_role" {
   name = "${var.project_name}-role"
 
@@ -28,6 +29,7 @@ resource "aws_iam_role" "codebuild_role" {
   })
 }
 
+# Policy allowing project role to access codebuild and resources
 resource "aws_iam_role_policy" "codebuild_policy" {
   role = aws_iam_role.codebuild_role.name
 
