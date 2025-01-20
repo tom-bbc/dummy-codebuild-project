@@ -14,8 +14,8 @@ phases:
 
   build:
     commands:
-      - poetry run pytest
-      - poetry run python package
+      - poetry run pytest --black
+      - poetry run flake8
       - docker build -t $REPOSITORY_URI:$IMAGE_VERSION .
 
   post_build:
