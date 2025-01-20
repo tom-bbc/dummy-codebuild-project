@@ -13,8 +13,6 @@ phases:
       - echo "Installing Poetry..."
       - pip install poetry
       - export PATH=$PATH:$HOME/.local/bin
-      - echo "Exporting Poetry environment..."
-      - poetry export -f requirements.txt --output requirements.txt --without-hashes
       - echo "Building project..."
       - poetry build
 
