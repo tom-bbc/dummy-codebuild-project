@@ -10,6 +10,7 @@ phases:
       - pip install poetry
       - export PATH=$PATH:$HOME/.local/bin
       - poetry build
+      - poetry install --with test
 
   build:
     commands:
@@ -19,6 +20,8 @@ phases:
 
   post_build:
     commands:
+      - docker tag $REPOSITORY_URI:$IMAGE_VERSION $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_VERSION
       - echo "Build completed on `date`" > build.log
       - echo "$IMAGE_VERSION" >> build.log
