@@ -12,11 +12,7 @@ COPY . .
 RUN pip install poetry
 
 # Install project dependencies using Poetry
-RUN poetry config virtualenvs.create false \
-    && poetry install --no-dev --no-interaction --no-ansi
-
-# Make port 80 available to the world outside this container
-EXPOSE 80
+RUN poetry install
 
 # Run main.py when the container launches
 CMD ["python", "main.py"]
