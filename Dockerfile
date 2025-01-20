@@ -14,5 +14,5 @@ RUN pip install poetry
 # Install project dependencies using Poetry
 RUN poetry install
 
-# Run main.py when the container launches
-CMD ["python", "main.py"]
+# Run main when the container launches
+CMD [ "poetry", "run", "python", "package" ]

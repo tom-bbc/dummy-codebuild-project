@@ -13,7 +13,8 @@ phases:
 
   build:
     commands:
-      - poetry run python -m main  # or your test command
+      - poetry run pytest
+      - poetry run python package
       - docker build -t $REPOSITORY_URI:$IMAGE_VERSION .
 
   post_build:
@@ -21,8 +22,8 @@ phases:
       - docker tag $REPOSITORY_URI:$IMAGE_VERSION $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_VERSION
       - docker push $REPOSITORY_URI:latest
-      - echo "Build completed on `date`" > build.txt
-      - echo "$IMAGE_VERSION" >> build.txt  # Append version to log.
+      - echo "Build completed on `date`" > build.log
+      - echo "$IMAGE_VERSION" >> build.log
 
 env:
   variables:
@@ -33,4 +34,4 @@ env:
 
 artifacts:
   files:
-    - build.txt
+    - build.log
