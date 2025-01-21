@@ -1,14 +1,12 @@
-# modules/codebuild/main.tf
-
 data "aws_caller_identity" "current" {}
 
 resource "aws_ecr_repository" "main" {
   name                 = var.ecr_repo_name
-  image_tag_mutability = var.image_tag_mutability
+  image_tag_mutability = "MUTABLE"
   force_delete = true
 
   image_scanning_configuration {
-    scan_on_push = var.scan_on_push
+    scan_on_push = true
   }
 }
 
@@ -158,9 +156,5 @@ resource "aws_codebuild_webhook" "example" {
       type    = "EVENT"
       pattern = "PUSH"
     }
-    # filter {
-    #   type    = "HEAD_REF"
-    #   pattern = "^refs/tags/.*$"
-    # }
   }
 }

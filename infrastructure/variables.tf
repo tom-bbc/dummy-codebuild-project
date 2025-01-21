@@ -1,24 +1,6 @@
-# modules/codebuild/variables.tf
 variable "project_name" {
   type = string
   default = "dummy-codebuild-project"
-}
-
-variable "repository_url" {
-  type = string
-  default = "https://github.com/tom-bbc/dummy-codebuild-project.git"
-}
-
-variable "image_tag_mutability" {
-  description = "The tag mutability setting for the repository"
-  type        = string
-  default     = "MUTABLE"
-}
-
-variable "scan_on_push" {
-  description = "Whether images should be scanned on push"
-  type        = bool
-  default     = true
 }
 
 variable "region" {
@@ -34,6 +16,11 @@ variable "account_id" {
 variable "ecr_repo_name" {
   type = string
   default = "dummy-codebuild-project"
+}
+
+variable "repository_url" {
+  type = string
+  default = "https://github.com/tom-bbc/dummy-codebuild-project.git"
 }
 
 variable "buildspec_file" {
