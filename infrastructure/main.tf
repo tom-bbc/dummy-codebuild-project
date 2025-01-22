@@ -1,3 +1,7 @@
+################################################################################
+# Set up of AWS CodeBuild project and linking to GitHub PRs
+################################################################################
+
 data "aws_caller_identity" "current" {}
 
 resource "aws_ecr_repository" "main" {
@@ -46,17 +50,6 @@ resource "aws_iam_role_policy" "codebuild_policy" {
           "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/codebuild/${var.project_name}",
           "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/codebuild/${var.project_name}:*"
         ]
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:GetObjectVersion",
-          "s3:GetBucketAcl",
-          "s3:GetBucketLocation"
-        ],
-        Resource = ["arn:aws:s3:::codepipeline-${var.region}-*"]
       },
       {
         Effect = "Allow",
@@ -147,6 +140,7 @@ resource "aws_codebuild_source_credential" "source_credential" {
   token       = var.auth_source_token
 }
 
+# Activating CodeBuild on GitHub push events
 resource "aws_codebuild_webhook" "example" {
   depends_on = [aws_codebuild_source_credential.source_credential]
   project_name = var.project_name

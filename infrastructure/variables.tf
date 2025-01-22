@@ -1,3 +1,7 @@
+################################################################################
+# Variables for setting up AWS CodeBuild project
+################################################################################
+
 variable "project_name" {
   type = string
   default = "dummy-codebuild-project"
