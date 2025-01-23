@@ -9,8 +9,15 @@ phases:
     commands:
       - make codebuild
 
-# post_build:
-#   commands:
-#     - docker tag $(NAME):$(VERSION) "$(ECR_REPOSITORY_URI):$(VERSION)"
-#     - docker push "$(ECR_REPOSITORY_URI):$(VERSION)"
-#     - docker image rm "$(NAME):$(VERSION)"
+  post_build:
+    commands:
+      - docker tag $NAME $ECR_REPOSITORY_URI:$(shell cat VERSION)
+      - docker push $ECR_REPOSITORY_URI:$(shell cat VERSION)
+      - docker image rm $NAME
+
+env:
+  variables:
+    NAME: dummy-codebuild-project
+    AWS_DEFAULT_REGION: "eu-west-2"
+    AWS_ACCOUNT_ID: "093380438279"
+    ECR_REPOSITORY_URI: "093380438279.dkr.ecr.eu-west-2.amazonaws.com/dummy-codebuild-project"
