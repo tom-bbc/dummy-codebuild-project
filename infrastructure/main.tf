@@ -150,5 +150,10 @@ resource "aws_codebuild_webhook" "example" {
       type    = "EVENT"
       pattern = "PULL_REQUEST_CREATED"
     }
+
+    filter {
+      type    = "BASE_REF"
+      pattern = "main"
+    }
   }
 }
