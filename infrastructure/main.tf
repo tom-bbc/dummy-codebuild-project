@@ -133,11 +133,19 @@ resource "aws_codebuild_project" "project" {
 }
 
 # Authenticating connection to GitHub
+data "aws_secretsmanager_secret" "personal_access_token" {
+  arn = "arn:aws:secretsmanager:eu-west-2:093380438279:secret:bbc-language-modelling-codebuild-xBUcef"
+}
+
+data "aws_secretsmanager_secret_version" "current" {
+  secret_id = data.aws_secretsmanager_secret.personal_access_token.id
+}
+
 resource "aws_codebuild_source_credential" "source_credential" {
   depends_on = [aws_codebuild_project.project]
   auth_type   = "PERSONAL_ACCESS_TOKEN"
   server_type = "GITHUB"
-  token       = var.auth_source_token
+  token       = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["github-personal-access-token"]
 }
 
 # Activating CodeBuild on GitHub push events

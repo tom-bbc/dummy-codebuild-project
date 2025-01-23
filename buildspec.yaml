@@ -8,11 +8,3 @@ phases:
   build:
     commands:
       - make codebuild
-
-env:
-  variables:
-    NAME: "dummy-codebuild-project"
-    AWS_DEFAULT_REGION: "eu-west-2"
-    AWS_ACCOUNT_ID: "093380438279"
-    ECR_REPOSITORY_URI: "093380438279.dkr.ecr.eu-west-2.amazonaws.com/dummy-codebuild-project"
-    VERSION: "0.0.1"
