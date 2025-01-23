@@ -134,7 +134,6 @@ resource "aws_codebuild_project" "project" {
 
 # Authenticating connection to GitHub
 data "aws_secretsmanager_secret" "personal_access_token" {
-  name = "dummy-codebuild-project-github-token"
   arn = "arn:aws:secretsmanager:eu-west-2:093380438279:secret:bbc-language-modelling-codebuild-xBUcef"
 }
 
