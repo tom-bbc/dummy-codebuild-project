@@ -11,8 +11,9 @@ phases:
 
   post_build:
     commands:
-      - docker tag $NAME $ECR_REPOSITORY_URI:$(shell cat VERSION)
-      - docker push $ECR_REPOSITORY_URI:$(shell cat VERSION)
+      - VERSION=$(cat VERSION)
+      - docker tag $NAME $ECR_REPOSITORY_URI:$VERSION
+      - docker push $ECR_REPOSITORY_URI:$VERSION
       - docker image rm $NAME
 
 env:
