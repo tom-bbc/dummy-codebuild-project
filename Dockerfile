@@ -1,18 +1,28 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim
+FROM ubuntu:latest AS base
 
-# Set the working directory in the container to /app
-WORKDIR /app
+WORKDIR /wrk
 
-# Copy the current directory contents into the container at /app
-COPY pyproject.toml ./
-COPY . .
+# Install poetry env for core codebase
+RUN mkdir -p /wrk/
+
+COPY . /wrk/
+
+# Install system dependencies
+RUN apt-get update
+
+RUN apt-get install -y bash-completion \
+                       htop            \
+                       python3-dev     \
+                       python3-venv    \
+                       shellcheck      \
+                       sudo            \
+                       make
 
 # Install Poetry
-RUN pip install poetry
+RUN python3 -m venv /usr/local/libexec/venv
+RUN /usr/local/libexec/venv/bin/pip install poetry
+
+ENV PATH="$PATH:/usr/local/libexec/venv/bin"
 
 # Install project dependencies using Poetry
 RUN poetry install
-
-# Run main when the container launches
-CMD [ "poetry", "run", "python", "package" ]

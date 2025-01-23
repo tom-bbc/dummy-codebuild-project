@@ -4,28 +4,7 @@ phases:
   install:
     runtime-versions:
       python: 3.10
-  pre_build:
-    commands:
-      - export PATH=$PATH:$HOME/.local/bin
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      - pip install poetry
-      - poetry install --with test
 
   build:
     commands:
-      - poetry run pytest --black
-      - poetry run flake8
-      - docker build -t $ECR_REPOSITORY_URI:$IMAGE_VERSION .
-
-  post_build:
-    commands:
-      - docker tag $ECR_REPOSITORY_URI:$IMAGE_VERSION $ECR_REPOSITORY_URI:latest
-      - docker push $ECR_REPOSITORY_URI:latest
-      - docker push $ECR_REPOSITORY_URI:$IMAGE_VERSION
-
-env:
-  variables:
-    AWS_DEFAULT_REGION: "eu-west-2"
-    AWS_ACCOUNT_ID: "093380438279"
-    ECR_REPOSITORY_URI: "093380438279.dkr.ecr.eu-west-2.amazonaws.com/dummy-codebuild-project"
-    IMAGE_VERSION: "0.0.1"
+      - make codebuild
