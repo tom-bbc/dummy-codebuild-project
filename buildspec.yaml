@@ -8,3 +8,9 @@ phases:
   build:
     commands:
       - make codebuild
+
+# post_build:
+#   commands:
+#     - docker tag $(NAME):$(VERSION) "$(ECR_REPOSITORY_URI):$(VERSION)"
+#     - docker push "$(ECR_REPOSITORY_URI):$(VERSION)"
+#     - docker image rm "$(NAME):$(VERSION)"
