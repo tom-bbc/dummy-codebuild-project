@@ -65,14 +65,6 @@ resource "aws_iam_role_policy" "codebuild_policy" {
       {
         Effect = "Allow",
         Action = [
-          "codeconnections:GetConnectionToken",
-          "codeconnections:GetConnection"
-        ],
-        Resource = "arn:aws:codeconnections:eu-west-2:093380438279:connection/811fdea6-493f-421e-904c-16b3b156ccee"
-      },
-      {
-        Effect = "Allow",
-        Action = [
           "ecr:GetAuthorizationToken",
           "ecr:BatchCheckLayerAvailability",
           "ecr:GetDownloadUrlForLayer",
@@ -141,19 +133,25 @@ resource "aws_codebuild_project" "project" {
 }
 
 # Authenticating connection to GitHub
-# resource "aws_codestarconnections_connection" "example" {
-#   name          = "example-connection"
-#   provider_type = "GitHub"
-# }
+data "aws_secretsmanager_secret" "personal_access_token" {
+  name = "dummy-codebuild-project-github-token"
+  arn = "arn:aws:secretsmanager:eu-west-2:093380438279:secret:bbc-language-modelling-codebuild-xBUcef"
+}
 
-# import {
-#   to = aws_codestarconnections_connection.example
-#   id = "arn:aws:codeconnections:eu-west-2:093380438279:connection/811fdea6-493f-421e-904c-16b3b156ccee"
-# }
+data "aws_secretsmanager_secret_version" "current" {
+  secret_id = data.aws_secretsmanager_secret.personal_access_token.id
+}
+
+resource "aws_codebuild_source_credential" "source_credential" {
+  depends_on = [aws_codebuild_project.project]
+  auth_type   = "PERSONAL_ACCESS_TOKEN"
+  server_type = "GITHUB"
+  token       = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["github-personal-access-token"]
+}
 
 # Activating CodeBuild on GitHub push events
 resource "aws_codebuild_webhook" "example" {
-  # depends_on = [aws_codestarconnections_connection.example]
+  depends_on = [aws_codebuild_source_credential.source_credential]
   project_name = var.project_name
   build_type   = "BUILD"
 
