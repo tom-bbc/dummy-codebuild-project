@@ -152,16 +152,6 @@ resource "aws_codebuild_webhook" "example" {
     }
 
     filter {
-      type    = "EVENT"
-      pattern = "PULL_REQUEST_UPDATED"
-    }
-
-    filter {
-      type    = "EVENT"
-      pattern = "PULL_REQUEST_REOPENED"
-    }
-
-    filter {
       type    = "BASE_REF"
       pattern = "main"
     }
