@@ -16,7 +16,7 @@ codebuild:
 	docker tag $(NAME) $(ECR_REPOSITORY_URI):$(VERSION)
 	aws ecr get-login-password --region $(AWS_DEFAULT_REGION) | docker login --username AWS --password-stdin $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_DEFAULT_REGION).amazonaws.com
 	docker push $(ECR_REPOSITORY_URI):$(VERSION)
-	docker image rm $(NAME)
+	docker image rm -f $(NAME)
 
 .PHONY: test
 test:
