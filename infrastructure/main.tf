@@ -148,7 +148,15 @@ resource "aws_codebuild_webhook" "example" {
   filter_group {
     filter {
       type    = "EVENT"
-      pattern = "PUSH"
+      pattern = "PULL_REQUEST_CREATED"
+    }
+    filter {
+      type    = "EVENT"
+      pattern = "PULL_REQUEST_UPDATED"
+    }
+    filter {
+      type    = "EVENT"
+      pattern = "PULL_REQUEST_REOPENED"
     }
   }
 }
