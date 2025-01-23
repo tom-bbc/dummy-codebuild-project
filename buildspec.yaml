@@ -18,6 +18,7 @@ phases:
       - docker tag $NAME $ECR_REPOSITORY_URI:$VERSION
       - docker push $ECR_REPOSITORY_URI:$VERSION
 
+# variables
 env:
   variables:
     NAME: "dummy-codebuild-project"
