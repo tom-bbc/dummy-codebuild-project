@@ -145,10 +145,40 @@ resource "aws_codebuild_webhook" "example" {
   depends_on = [aws_codebuild_source_credential.source_credential]
   project_name = var.project_name
   build_type   = "BUILD"
+
   filter_group {
     filter {
       type    = "EVENT"
-      pattern = "PUSH"
+      pattern = "PULL_REQUEST_CREATED"
+    }
+
+    filter {
+      type    = "BASE_REF"
+      pattern = "main"
+    }
+  }
+
+  filter_group {
+    filter {
+      type    = "EVENT"
+      pattern = "PULL_REQUEST_UPDATED"
+    }
+
+    filter {
+      type    = "BASE_REF"
+      pattern = "main"
+    }
+  }
+
+  filter_group {
+    filter {
+      type    = "EVENT"
+      pattern = "PULL_REQUEST_REOPENED"
+    }
+
+    filter {
+      type    = "BASE_REF"
+      pattern = "main"
     }
   }
 }
