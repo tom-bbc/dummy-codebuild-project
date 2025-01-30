@@ -4,6 +4,7 @@
 
 data "aws_caller_identity" "current" {}
 
+# ECR repo for built images
 resource "aws_ecr_repository" "main" {
   name                 = var.ecr_repo_name
   image_tag_mutability = "MUTABLE"
@@ -12,6 +13,30 @@ resource "aws_ecr_repository" "main" {
   image_scanning_configuration {
     scan_on_push = true
   }
+}
+
+resource "aws_ecr_lifecycle_policy" "expire_untagged_30_days" {
+  repository = aws_ecr_repository.main.name
+
+  policy = <<EOF
+{
+    "rules": [
+        {
+            "rulePriority": 1,
+            "description": "Expire untagged images older than 30 days",
+            "selection": {
+                "tagStatus": "untagged",
+                "countType": "sinceImagePushed",
+                "countUnit": "days",
+                "countNumber": 30
+            },
+            "action": {
+                "type": "expire"
+            }
+        }
+    ]
+}
+EOF
 }
 
 # Role for project to access codebuild
