@@ -1,10 +1,6 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      python: 3.10
-
   pre_build:
     commands:
       - make codebuild-setup
@@ -18,10 +14,8 @@ phases:
     commands:
       - make codebuild-push
 
-env:
-  variables:
-    NAME: "dummy-codebuild-project"
-    AWS_DEFAULT_REGION: "eu-west-2"
-    AWS_ACCOUNT_ID: "093380438279"
-    ECR_REPOSITORY_URI: "093380438279.dkr.ecr.eu-west-2.amazonaws.com/dummy-codebuild-project"
-    VERSION: "0.0.1"
+cache:
+  paths:
+    - '/usr/share/doc/**/*'
+    - '/usr/local/libexec/poetry-cache/**/*'
+    - '/home/automation/.local/share/pypoetry/**/*'
