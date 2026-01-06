@@ -5,6 +5,23 @@ phases:
     runtime-versions:
       python: 3.10
 
-  build:
+  pre_build:
     commands:
-      - make codebuild
+      - make codebuild-setup
+
+  build:
+    on-failure: ABORT
+    commands:
+      - make codebuild-run
+
+  post_build:
+    commands:
+      - make codebuild-push
+
+env:
+  variables:
+    NAME: "dummy-codebuild-project"
+    AWS_DEFAULT_REGION: "eu-west-2"
+    AWS_ACCOUNT_ID: "093380438279"
+    ECR_REPOSITORY_URI: "093380438279.dkr.ecr.eu-west-2.amazonaws.com/dummy-codebuild-project"
+    VERSION: "0.0.1"
